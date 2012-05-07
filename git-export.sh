@@ -1,6 +1,22 @@
 #!/bin/bash
 
 ##
+# Script d'export de dépôt Git.
+#
+# Permet d'exporter une branche ou un tag d'un dépôt Git dans le répertoire de votre choix.
+# Aucun pré-requis :
+#   – Crée le répertoire au besoin,
+#   – Puis toujours au besoin, clone, reset --hard, fetch ou checkout selon le contenu initial du répertoire spécifié.
+# Ceci permet un export accéléré si vous ré-exploitez le même répertoire d'appels en appels pour un dépôt donné,
+# même si vous spécifiez une autre branche ou tag.
+#
+# Usage : bash /path/to/git-export.sh [url-repo-git] [ref-to-export] [directory]
+# Example :
+#   bash ~/eclipse-workspace-3.8/himedia-common/lib/git/git-export.sh \
+#       git@indefero.hi-media-techno.com:advertising-comtrack-tracker.git \
+#       v2.0.3 \
+#       /tmp/tracker_export
+#
 # @author Geoffroy AUBRY <geoffroy.aubry@free.fr>
 #
 
