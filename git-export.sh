@@ -9,8 +9,9 @@
 #   – Puis toujours au besoin, clone, reset --hard, fetch ou checkout selon le contenu initial du répertoire spécifié.
 # Ceci permet un export accéléré si vous ré-exploitez le même répertoire d'appels en appels pour un dépôt donné,
 # même si vous spécifiez une autre branche ou tag.
+# Un "git clean -dfx" est exécuté en fin de script si et seulement si le paramètre <must-clean> vaut 1.
 #
-# Usage : bash /path/to/git-export.sh [url-repo-git] [ref-to-export] [directory]
+# Usage : bash /path/to/git-export.sh <url-repo-git> <ref-to-export> <directory> [<must-clean>]
 # Example :
 #   bash ~/eclipse-workspace-3.8/himedia-common/lib/git/git-export.sh \
 #       git@indefero.hi-media-techno.com:advertising-comtrack-tracker.git \
@@ -26,6 +27,7 @@ repository="$1"
 reponame='origin'
 ref="$2"
 srcdir="$3"
+mustclean="$4"
 
 if [ -z "$repository" ] || [ -z "$ref" ] || [ -z "$srcdir" ]; then
     echo 'Missing parameters!' >&2
@@ -65,4 +67,9 @@ elif git tag | grep -q "$ref"; then
     fi
 else
     echo "Git: branch or tag '$ref' not found!" >&2 && exit 1
+fi
+
+if [ "$mustclean" = '1' ]; then
+    echo 'Cleans the working tree...'
+    git clean -dfx --quiet 1>/dev/null || exit $?
 fi
