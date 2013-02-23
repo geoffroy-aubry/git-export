@@ -1,19 +1,18 @@
 #!/usr/bin/env bash
 
 ##
-# Script d'export de dépôt Git.
+# git-export.sh is a small tool to easily export a ref from a remote git repository into a local directory.
 #
-# Permet d'exporter une branche ou un tag d'un dépôt Git dans le répertoire de votre choix.
-# Aucun pré-requis :
-#   – Crée le répertoire au besoin,
-#   – Puis toujours au besoin, clone, reset --hard, fetch ou checkout selon le contenu initial du répertoire spécifié.
-# Ceci permet un export accéléré si vous ré-exploitez le même répertoire d'appels en appels pour un dépôt donné,
-# même si vous spécifiez une autre branche ou tag.
-# Un "git clean -dfx" est exécuté en fin de script si et seulement si le paramètre <must-clean> vaut 1.
+# The result is still a git repository but no requirement is needed. Indeed this tool do:
+#     – create the target directory if needed
+#     – depending on status of target directory, choose wisely between git clone, git reset --hard, git fetch or git checkout
+#     – an additionally git clean -dfx is executed if <must-clean> parameter is setted to 1
 #
-# Usage : bash /path/to/git-export.sh <url-repo-git> <ref-to-export> <directory> [<must-clean>]
+# This tool is especially convenient to prepare rsync to multiple destinations in case of software deployment. You specify a branch or a tag and if the local directory is preserved between deployments, then only a fast git fetch is executed. So in particular only date of updated files are updated and allow an efficient rsync.
+#
+# Usage : bash /path/to/git-export.sh <url-repo-git> <git-ref-to-export> <local-dir> [<must-clean>]
 # Example :
-#   bash ~/eclipse-workspace-3.8/himedia-common/lib/git/git-export.sh \
+#   bash ./git-export.sh \
 #       git@indefero.hi-media-techno.com:advertising-comtrack-tracker.git \
 #       v2.0.3 \
 #       /tmp/tracker_export
@@ -69,3 +68,4 @@ if [ "$mustclean" = '1' ]; then
     echo 'Cleans the working tree...'
     git clean -dfx --quiet 1>/dev/null || exit $?
 fi
+
