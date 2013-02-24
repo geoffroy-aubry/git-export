@@ -1,23 +1,40 @@
 #!/usr/bin/env bash
 
 ##
-# git-export.sh is a small tool to easily export a ref from a remote git repository into a local directory.
+# git-export is a small tool to easily export a ref from a remote git repository into a local directory.
 #
 # The result is still a git repository but no requirement is needed. Indeed this tool do:
 #     – create the target directory if needed
 #     – depending on status of target directory, choose wisely between git clone, git reset --hard, git fetch or git checkout
 #     – an additionally git clean -dfx is executed if <must-clean> parameter is setted to 1
 #
-# This tool is especially convenient to prepare rsync to multiple destinations in case of software deployment. You specify a branch or a tag and if the local directory is preserved between deployments, then only a fast git fetch is executed. So in particular only date of updated files are updated and allow an efficient rsync.
+# This tool is especially convenient to prepare rsync to multiple destinations in case of software deployment.
+# You specify a branch or a tag and if the local directory is preserved between deployments,
+# then only a fast git fetch is executed.
+# So in particular only date of updated files are updated and allow an efficient rsync.
 #
-# Usage : bash /path/to/git-export.sh <url-repo-git> <git-ref-to-export> <local-dir> [<must-clean>]
-# Example :
-#   bash ./git-export.sh \
-#       git@indefero.hi-media-techno.com:advertising-comtrack-tracker.git \
-#       v2.0.3 \
-#       /tmp/tracker_export
+# Usage: bash /path/to/git-export.sh <url-repo-git> <git-ref-to-export> <local-dir> [<must-clean>]
+# Example: ./git-export.sh git@github.com:geoffroy-aubry/git-export.git v2.0.3 /tmp/my-export
 #
-# @author Geoffroy AUBRY <geoffroy.aubry@free.fr>
+#
+#
+# Copyright (c) 2013 Geoffroy Aubry <geoffroy.aubry@free.fr>
+# All rights reserved.
+#
+# This code is free software: you can redistribute it and/or modify it under
+# the terms of the GNU Lesser General Public License version 3 only, as
+# published by the Free Software Foundation.
+#
+# This code is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+# version 3 for more details.
+#
+# You should have received a copy of the GNU Lesser General Public License
+# version 3 along with this work.  If not, see <http://www.gnu.org/licenses/>.
+#
+# @copyright 2013 Geoffroy Aubry <geoffroy.aubry@free.fr>
+# @license http://www.gnu.org/licenses/lgpl.html
 #
 
 
